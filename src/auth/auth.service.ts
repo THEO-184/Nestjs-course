@@ -18,6 +18,8 @@ export class AuthService {
     private config: ConfigService,
   ) {}
 
+  // "testRegex": ".e2e-spec.ts$",
+
   async signup(dto: AuthDto) {
     const salt = await bcrypt.genSalt(10);
     const hash = await bcrypt.hash(dto.password, salt);
