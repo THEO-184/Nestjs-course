@@ -4,6 +4,7 @@ import { AppModule } from 'src/app.module';
 import { PrismaService } from 'src/prisma/prisma.service';
 import * as pactum from 'pactum';
 import { AuthDto } from 'src/auth/dto';
+import { EditUserDto } from 'src/user/dto';
 
 describe('App e2e', () => {
   let app: INestApplication;
@@ -35,6 +36,8 @@ describe('App e2e', () => {
     const dto: AuthDto = {
       email: 'testsignup@mail.com',
       password: '123',
+      firstName: 'user1',
+      lastName: 'user2',
     };
 
     describe('Signup', () => {
@@ -98,13 +101,32 @@ describe('App e2e', () => {
           .expectStatus(200);
       });
     });
+
+    describe('Edit User', () => {
+      const dto: EditUserDto = {
+        firstName: 'Theo',
+        lastName: 'Boakye',
+      };
+
+      it('should update user details', () => {
+        return pactum
+          .spec()
+          .patch('/users/me')
+          .withBearerToken('$S{userAt}')
+          .withBody(dto)
+          .expectStatus(200)
+          .expectBodyContains(dto.firstName)
+          .expectStatus(200)
+          .expectBodyContains(dto.lastName);
+      });
+    });
   });
 
   describe('Bookmarks', () => {
     describe('get bookmarks', () => {});
     describe('create bookmarks', () => {});
-    describe('get bookmarks b y id', () => {});
-    describe('Edit bookmark', () => {});
-    describe('Delete bookmark', () => {});
+    describe('get bookmarks by id', () => {});
+    describe('Edit bookmark by id', () => {});
+    describe('Delete bookmark by id', () => {});
   });
 });
