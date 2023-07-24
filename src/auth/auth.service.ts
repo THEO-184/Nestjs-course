@@ -21,10 +21,11 @@ export class AuthService {
   async signup(dto: AuthDto) {
     const salt = await bcrypt.genSalt(10);
     const hash = await bcrypt.hash(dto.password, salt);
+    delete dto.password;
     try {
       const user = await this.prisma.user.create({
         data: {
-          email: dto.email,
+          ...dto,
           hash,
         },
       });
