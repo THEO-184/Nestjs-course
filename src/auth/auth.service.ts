@@ -54,7 +54,6 @@ export class AuthService {
 
       if (!passwordMatches) {
         throw new NotFoundException('wrong password');
-        return;
       }
 
       const access_token = await this.generateJWT(user.id, user.email);
