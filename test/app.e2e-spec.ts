@@ -123,7 +123,16 @@ describe('App e2e', () => {
   });
 
   describe('Bookmarks', () => {
-    describe('get bookmarks', () => {});
+    describe('get bookmarks', () => {
+      it('should get empty bookmarks', () => {
+        return pactum
+          .spec()
+          .get('/bookmarks')
+          .withBearerToken('$S{userAt}')
+          .expectStatus(200)
+          .inspect();
+      });
+    });
     describe('create bookmarks', () => {});
     describe('get bookmarks by id', () => {});
     describe('Edit bookmark by id', () => {});
